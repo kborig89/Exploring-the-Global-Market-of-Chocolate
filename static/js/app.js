@@ -2,7 +2,7 @@ var jsonData = "data/samples.json";
 
 function init() {
 // Fetch the JSON data and console log it
-    d3.json(jsonData).then(function(data) {
+d3.json("/manfacturing").then((data) => {
         console.log(data);
         // get sample values data
         // console.log(data["samples"][0]["sample_values"]);

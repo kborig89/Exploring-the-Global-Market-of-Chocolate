@@ -25,7 +25,7 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # Save references to each table
-#Samples_Metadata = Base.classes.
+cacao_table = Base.classes.cacao_db
 
 
 @app.route("/")
@@ -34,26 +34,75 @@ def index():
     return render_template("index.html")
 
 
-# @app.route("/manufacturing")
-# def names():
-#     """Return a list of sample names."""
-#     return jsonify(list(df.columns)[2:])
+ @app.route("/market/<location>")
+def market(location):
+     """Return a list of sample names."""
+     """Return the MetaData for a given sample."""
+    sel = [
+        cacao_table.rating,
+        cacao_table.company_location,
+        cacao_table.company,
+        cacao_table.review_date
+    
+    ]
+
+    results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
+
+    # Create a dictionary entry for each row of metadata information
+    cacao_data = {}
+    for result in results:
+        cacao_data["company_location"] = result[0]
+        cacao_data"rating"] = result[1]
+        
+
+    print(cacao_data)
+    return jsonify(cacao_data)
 
 
-# @app.route("/market")
-# def names():
-#     """Return a list of sample names."""
-#     return jsonify(list(df.columns)[2:])
+ @app.route("/manfacturing")
+def manfacturing():
+#     sel = [
+        cacao_table.specific_bean_origin,
+        cacao_table.company,
+        cacao_table.rating,
+        cacao_table.bean_origin_country
+    
+    ]
 
+results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
 
+    # Create a dictionary entry for each row of metadata information
+    cacao_data = {}
+    for result in results:
+        cacao_data["company_location"] = result[0]
+        cacao_data"rating"] = result[1]
+        
+
+    print(cacao_data)
+    return jsonify(cacao_data)
 # @app.route("/sourcing")
-# def names():
-#     """Return a list of sample names."""
-#     return jsonify(list(df.columns)[2:])
+# def sourcing():
+sel = [
+        cacao_table.specific_bean_origin,
+        cacao_table.bean_origin_country,
+        cacao_table.rating,
+        cacao_table.bean_type,
 
+    
+    ]
+    results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
 
-# @app.route("/metadata/<sample>")
-# def sample_metadata(sample):
+    # Create a dictionary entry for each row of metadata information
+    cacao_data = {}
+    for result in results:
+        cacao_data["company_location"] = result[0]
+        cacao_data"rating"] = result[1]
+        
+
+    print(cacao_data)
+    return jsonify(cacao_data)
+
+    
 
 
 if __name__ == "__main__":
