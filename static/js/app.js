@@ -1,108 +1,101 @@
-var jsonData = "data/samples.json";
+// Belly Button Biodiversity - Plotly.js
 
-function init() {
-// Fetch the JSON data and console log it
-d3.json("/manfacturing").then((data) => {
-        console.log(data);
-        // get sample values data
-        // console.log(data["samples"][0]["sample_values"]);
-        // dynamically add data names/ids to the dropdown mean
-        var names = data.names;
+function buildMetadata(sample) {
 
-        names.forEach((name) => {
-            d3.select("#selDataset").append("option").text(name);
-        })
-        // display default values
-        plotGraph(data.names[0]);
-        getData(data.names[0]);
+    // @TODO: Complete the Following Function that Builds the Metadata Panel
+  
+    // Use `d3.json` to Fetch the Metadata for a Sample
+      d3.json(`/metadata/${sample}`).then((data) => {
+          // Use d3 to Select the Panel with id of `#sample-metadata`
+          var PANEL = d3.select("#sample-metadata");
+          // Use `.html("") to Clear any Existing Metadata
+          PANEL.html("");
+          // Use `Object.entries` to Add Each Key & Value Pair to the Panel
+          // Hint: Inside the Loop, Use d3 to Append New Tags for Each Key-Value in the Metadata
+          Object.entries(data).forEach(([key, value]) => {
+            PANEL.append("h6").text(`${key}:${value}`);
+          })
+          // BONUS: Build the Gauge Chart
+            buildGauge(data.WFREQ);
+      })
+  }
+  
+  function buildCharts(sample) {
+  
+    // @TODO: Use `d3.json` to Fetch the Sample Data for the Plots
+    d3.json(`/samples/${sample}`).then((data) => {
+      // @TODO: Build a Bubble Chart Using the Sample Data
+      const otu_ids = data.otu_ids;
+      const otu_labels = data.otu_labels;
+      const sample_values = data.sample_values;
+      // @TODO: Build a Pie Chart
+      let bubbleLayout = {
+        margin: { t: 0 },
+        hovermode: "closests",
+        xaxis: { title: "OTU ID"}
+      }
+  
+      let bubbleData = [
+        {
+          x: otu_ids,
+          y: sample_values,
+          text: otu_labels,
+          mode: "markers",
+          marker: {
+            size: sample_values,
+            color: otu_ids,
+            colorscale: "Earth"
+          }
+        }
+      ]
+  
+      Plotly.plot("bubble", bubbleData, bubbleLayout);
+  
+      // HINT: Use slice() to Grab the Top 10 sample_values,
+      // otu_ids, and otu_labels (10 Each)
+      let pieData = [
+        {
+          values: sample_values.slice(0, 10),
+          labels: otu_ids.slice(0, 10),
+          hovertext: otu_labels.slice(0, 10),
+          hoverinfo: "hovertext",
+          type: "pie"
+        }
+      ];
+      
+      let pieLayout = {
+        margin: { t: 0, l: 0 }
+      };
+  
+      Plotly.plot("pie", pieData, pieLayout)
+  })
+  }
+  
+  function init() {
+    // Grab a Reference to the Dropdown Select Element
+    var selector = d3.select("#selDataset");
+  
+    // Use the List of Sample Names to Populate the Select Options
+    d3.json("/names").then((sampleNames) => {
+      sampleNames.forEach((sample) => {
+        selector
+          .append("option")
+          .text(sample)
+          .property("value", sample);
+      });
+  
+      // Use the First Sample from the List to Build Initial Plots
+      const firstSample = sampleNames[0];
+      buildCharts(firstSample);
+      buildMetadata(firstSample);
     });
-}
-
-init();
-
-// function that gets the data based on ID/name
-function getData(id) {
-    d3.json(jsonData).then(function(data) {
-        var metaResult = data.metadata;
-        //console.log(metaResult);
-        var result = metaResult.filter(meta => meta.id.toString() === id)[0];
-        var demoInfo = d3.select("#sample-metadata");
-        demoInfo.html("");
-        Object.entries(result).forEach((key) => {   
-            demoInfo.append("h5").text(key[0] + ": " + key[1] + "\n");
-        });
-    });
-}
-
-function plotGraph(id) {
-    d3.json(jsonData).then(function(data) {
-        var index = data.samples.findIndex(sample => sample.id === id);
-        console.log(`The index in data.samples array is: ${index}.`);
-        var sampleValues = data.samples[index].sample_values.slice(0,10).reverse();
-        var labels = data.samples[index].otu_labels.slice(0,10);
-        // get top 10 otu ids and reverse it
-        var otu_top_10 = (data.samples[index].otu_ids.slice(0, 10)).reverse();
-        // map otu id to OTU + id
-        var otu_id = otu_top_10.map(d => "OTU " + d);
-        // get the top 10 OTU labels
-        var labels = data.samples[index].otu_labels.slice(0,10);
-
-        // create bar chart data trace
-        var trace = {
-            x: sampleValues,
-            y: otu_id,
-            text: labels,
-            marker: {
-            color: 'blue'},
-            type:"bar",
-            orientation: "h",
-        };
-        var data_bar = [trace];
-
-        // set the plotly layouts
-        var layout_bar= {
-            title: "Top 10 OTU",
-            yaxis:{
-                tickmode:"linear",
-            },
-            margin: {
-                l: 100,
-                r: 100,
-                t: 100,
-                b: 30
-            }
-        };
-        // create the bar chart
-        Plotly.newPlot("bar", data_bar, layout_bar);
-
-        // Creat data trace for bubble chart
-        var trace1 = {
-            x: data.samples[index].otu_ids,
-            y: data.samples[index].sample_values,
-            mode: "markers",
-            marker: {
-                size: data.samples[index].sample_values,
-                color: data.samples[index].otu_ids
-            },
-            text:  data.samples[index].otu_labels
-        };
-        var data_bubble = [trace1];
-
-        // set the plotly layout
-        var layout_bubble = {
-            xaxis:{title: "OTU ID"},
-            height: 600,
-            width: 1000
-        };
-
-        // create the bubble plot
-        Plotly.newPlot("bubble", data_bubble, layout_bubble); 
-    });
-}
-
-
-// optionChange function that populates data and graph when event is triggered
-function optionChanged(id) {
-    plotGraph(id);
-    getData(id);
-}
+  }
+  
+  function optionChanged(newSample) {
+    // Fetch New Data Each Time a New Sample is Selected
+    buildCharts(newSample);
+    buildMetadata(newSample);
+  }
+  
+  // Initialize the Dashboard
+  init();
