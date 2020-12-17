@@ -25,7 +25,7 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # Save references to each table
-cacao_table = Base.classes.cacao_db
+cacao_table = Base.classes.cacao_clean_withbean
 
 
 @app.route("/")
@@ -34,73 +34,73 @@ def index():
     return render_template("index.html")
 
 
- @app.route("/market/<location>")
-def market(location):
-     """Return a list of sample names."""
-     """Return the MetaData for a given sample."""
-    sel = [
-        cacao_table.rating,
-        cacao_table.company_location,
-        cacao_table.company,
-        cacao_table.review_date
-    
-    ]
-
-    results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
-
-    # Create a dictionary entry for each row of metadata information
-    cacao_data = {}
-    for result in results:
-        cacao_data["company_location"] = result[0]
-        cacao_data"rating"] = result[1]
-        
-
-    print(cacao_data)
-    return jsonify(cacao_data)
-
-
- @app.route("/manfacturing")
-def manfacturing():
+# @app.route("/market/<location>")
+# def market(location):
+#      """Return a list of sample names."""
+#      """Return the MetaData for a given sample."""
 #     sel = [
-        cacao_table.specific_bean_origin,
-        cacao_table.company,
-        cacao_table.rating,
-        cacao_table.bean_origin_country
+#         cacao_table.rating,
+#         cacao_table.company_location,
+#         cacao_table.company,
+#         cacao_table.review_date
     
-    ]
+#     ]
 
-results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
+#     results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
 
-    # Create a dictionary entry for each row of metadata information
-    cacao_data = {}
-    for result in results:
-        cacao_data["company_location"] = result[0]
-        cacao_data"rating"] = result[1]
+#     # Create a dictionary entry for each row of metadata information
+#     cacao_data = {}
+#     for result in results:
+#         cacao_data["company_location"] = result[0]
+#         cacao_data["rating"] = result[1]
         
 
-    print(cacao_data)
-    return jsonify(cacao_data)
-# @app.route("/sourcing")
-# def sourcing():
-sel = [
-        cacao_table.specific_bean_origin,
-        cacao_table.bean_origin_country,
-        cacao_table.rating,
-        cacao_table.bean_type,
+#     print(cacao_data)
+#     return jsonify(cacao_data)
 
+
+# @app.route("/manfacturing")
+# def manfacturing():
+# #     sel = [
+#         cacao_table.specific_bean_origin,
+#         cacao_table.company,
+#         cacao_table.rating,
+#         cacao_table.bean_origin_country
     
-    ]
-    results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
+#     ]
 
-    # Create a dictionary entry for each row of metadata information
-    cacao_data = {}
-    for result in results:
-        cacao_data["company_location"] = result[0]
-        cacao_data"rating"] = result[1]
+# results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
+
+#     # Create a dictionary entry for each row of metadata information
+#     cacao_data = {}
+#     for result in results:
+#         cacao_data["company_location"] = result[0]
+#         cacao_data["rating"] = result[1]
         
 
-    print(cacao_data)
-    return jsonify(cacao_data)
+#     print(cacao_data)
+#     return jsonify(cacao_data)
+# # @app.route("/sourcing")
+# # def sourcing():
+# sel = [
+#         cacao_table.specific_bean_origin,
+#         cacao_table.bean_origin_country,
+#         cacao_table.rating,
+#         cacao_table.bean_type,
+
+    
+#     ]
+#     results = db.session.query(*sel).filter(cacao_table.company_location == location).all()
+
+#     # Create a dictionary entry for each row of metadata information
+#     cacao_data = {}
+#     for result in results:
+#         cacao_data["company_location"] = result[0]
+#         cacao_data["rating"] = result[1]
+        
+
+#     print(cacao_data)
+#     return jsonify(cacao_data)
 
     
 
