@@ -11,28 +11,28 @@ from sqlalchemy.orm import Session
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, func, inspect
+import sqlite3
 
 app = Flask(__name__)
-
-
-# import csv_to_sqlite 
-# # all the usual options are supported
-# options = csv_to_sqlite.CsvOptions(typing_style="full", encoding="utf-8") 
-# input_files = ["data/cacao_clean_withbean.csv"] # pass in a list of CSV files
-# csv_to_sqlite.write_csv(input_files, "data/cacao_bean.sqlite", options)
 
 #################################################
 # Database Setup
 #################################################
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', '') or "sqlite:///data/cacao_bean6.sqlite"
-db = SQLAlchemy(app)
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', '') or "sqlite:///data/cacao_bean.sqlite"
+# db = SQLAlchemy(app)
 
-# reflect an existing database into a new model
-Base = automap_base()
-# reflect the tables
-Base.prepare(db.engine, reflect=True)
+# # reflect an existing database into a new model
+# Base = automap_base()
+# # reflect the tables
+# Base.prepare(db.engine, reflect=True)
 
+conn = sqlite3.connect("data/cacao_bean.sqlite")
+
+cur = conn.cursor()
+cur.execute("SELECT * FROM cacao_clean_withbean")
+cacao_table = cur.fetchall()
+print(cacao_table)
 # Save references to each table
 # print(db)
 # print(db.engine)
@@ -40,11 +40,11 @@ Base.prepare(db.engine, reflect=True)
 # print(app.config)
 # print(Base)
 # print(Base.classes)
-tableList = Base.classes.keys()
-print(tableList)
-cacao_table = Base.classes.cacao_clean_withbean
+# tableList = Base.classes.keys()
+# print(tableList)
+# cacao_table = Base.classes.cacao_clean_withbean
 
-print(cacao_table)
+# print(cacao_table)
 
 
 @app.route("/")
