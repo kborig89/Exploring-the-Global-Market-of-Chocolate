@@ -6,20 +6,26 @@ import numpy as np
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine, func, inspect
 
 app = Flask(__name__)
 
+
+# import csv_to_sqlite 
+# # all the usual options are supported
+# options = csv_to_sqlite.CsvOptions(typing_style="full", encoding="utf-8") 
+# input_files = ["data/cacao_clean_withbean.csv"] # pass in a list of CSV files
+# csv_to_sqlite.write_csv(input_files, "data/cacao_bean.sqlite", options)
 
 #################################################
 # Database Setup
 #################################################
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    'DATABASE_URL', '') or "sqlite:///cacao_bean.sqlite"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', '') or "sqlite:///data/cacao_bean6.sqlite"
 db = SQLAlchemy(app)
 
 # reflect an existing database into a new model
@@ -28,10 +34,16 @@ Base = automap_base()
 Base.prepare(db.engine, reflect=True)
 
 # Save references to each table
+# print(db)
+# print(db.engine)
+# print(app)
+# print(app.config)
+# print(Base)
+# print(Base.classes)
 tableList = Base.classes.keys()
 print(tableList)
-#cacao_table = Base.classes.cacao_clean_withbean
-cacao_table = Base.classes.cacao_db
+cacao_table = Base.classes.cacao_clean_withbean
+
 print(cacao_table)
 
 
@@ -64,7 +76,7 @@ def manufacturing(location):
         cacao_data["bean_origin_country"] = result[4]
     print(cacao_data)
     return jsonify(cacao_data)
-
+    return render_template("manufacturing.html")
 
 # def manufacturing(location):
 #     """Return `otu_ids`, `otu_labels`,and `sample_values`."""
