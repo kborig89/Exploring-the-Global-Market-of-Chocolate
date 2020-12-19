@@ -4,37 +4,33 @@ function buildMetadata(location) {
 
     // @TODO: Complete the Following Function that Builds the Metadata Panel
   
-  //   // Use `d3.json` to Fetch the Metadata for a Sample
-  //     d3.json(`/metadata/${sample}`).then((data) => {
-  //         // Use d3 to Select the Panel with id of `#sample-metadata`
-  //         var PANEL = d3.select("#sample-metadata");
-  //         // Use `.html("") to Clear any Existing Metadata
-  //         PANEL.html("");
-  //         // Use `Object.entries` to Add Each Key & Value Pair to the Panel
-  //         // Hint: Inside the Loop, Use d3 to Append New Tags for Each Key-Value in the Metadata
-  //         Object.entries(data).forEach(([key, value]) => {
-  //           PANEL.append("h6").text(`${key}:${value}`);
-  //         })
-  //         // BONUS: Build the Gauge Chart
-  //           buildGauge(data.WFREQ);
-  //     })
-  // }
+    // Use `d3.json` to Fetch the Metadata for a Sample
+      d3.json(`/metadata/${sample}`).then((data) => {
+          // Use d3 to Select the Panel with id of `#sample-metadata`
+          var PANEL = d3.select("#sample-metadata");
+          // Use `.html("") to Clear any Existing Metadata
+          PANEL.html("");
+          // Use `Object.entries` to Add Each Key & Value Pair to the Panel
+          // Hint: Inside the Loop, Use d3 to Append New Tags for Each Key-Value in the Metadata
+          Object.entries(data).forEach(([key, value]) => {
+            PANEL.append("h6").text(`${key}:${value}`);
+          })
+          // BONUS: Build the Gauge Chart
+            buildGauge(data.WFREQ);
+      })
+  }
   
   function buildCharts(location) {
-    // cacao_table.company_location,
-    //      cacao_table.rating,
-    //      cacao_table.company,
-    //      cacao_table.review_date,
-    //      cacao_table.bean_origin_country
+ 
   
     // @TODO: Use `d3.json` to Fetch the Sample Data for the Plots
-    d3.json(`/manufacturing/${location}`).then((data) => {
+    d3.json(`/manufacturing/${location}`).then((cacao_data) => {
       // @TODO: Build a Bubble Chart Using the Sample Data
-      var company_location = data.otu_ids;
-      var rating = data.otu_labels;
-      var sample_values = data.sample_values;
-      var review_date =
-      var bean_origin_country
+      var company_location = cacao_data.company_location;
+      var rating = cacao_data.rating;
+      var company = cacao_data.company;
+      var review_date = cacao_data.review_date;
+      var bean_origin_country = caao_data.bean_origin_country;
 
       // @TODO: Build a Pie Chart
       let bubbleLayout = {
@@ -76,8 +72,8 @@ function buildMetadata(location) {
   //     };
   
   //     Plotly.plot("pie", pieData, pieLayout)
-  // })
-  // }
+  })
+  }
   
   function init() {
     // Grab a Reference to the Dropdown Select Element
@@ -86,24 +82,21 @@ function buildMetadata(location) {
     // Use the List of Sample Names to Populate the Select Options
     d3.json("/manufacturing").then((companyLocation) => {
       companyLocation.forEach((location) => {
-        selector
-          .append("option")
-          .text(location)
-          .property("value", location);
-      });
+        dropdown.append("option").text(location).property("value", location);
+      })
   
       // Use the First Sample from the List to Build Initial Plots
-      const firstLocation = companyLocation[0];
-      buildCharts(firstLocation);
-      buildMetadata(firstLocation);
-    });
+      
+      buildPlot(location[0]);
+      buildMetadata(location[0]);
+    })
   }
   
-  function optionChanged(newLocation) {
+  function optionChanged(new_location) {
     // Fetch New Data Each Time a New Sample is Selected
-    buildCharts(newLocation);
-    buildMetadata(newLocation;
+    buildPlot(new_location);
+    buildMetadata(new_location);
   }
-  
-  // Initialize the Dashboard
-  init();
+
+   // Initialize the Dashboard
+   init();

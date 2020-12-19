@@ -35,7 +35,8 @@ def index():
 
 
  @app.route("/manufacturing/<location>")
-def market(location):
+    return render_template("manufacturing.html")
+def manufacturing(location):
      """Return a list of sample names."""
      """Return the MetaData for a given sample."""
     sel = [
@@ -63,6 +64,22 @@ def market(location):
     return jsonify(cacao_data)
 
 
+# def manufacturing(location):
+#     """Return `otu_ids`, `otu_labels`,and `sample_values`."""
+#     stmt = db.session.query(Samples).statement
+#     df = pd.read_sql_query(stmt, db.session.bind)
+
+#     # Filter the data based on the sample number and
+#     # only keep rows with values above 1
+#     cacao_data = df.loc[df[sample] > 1, ["company_location", "rating", "company", location]]
+#     cacao_data.sort_values(by=location, inplace=True, ascending=False)
+#     # Format the data to send as json
+#     data = {
+#         "company_location": cacao_data.company_location.values.tolist(),
+#         "rating": cacao_data.rating.values.tolist(),
+#         "company": cacao_data.rating.values.tolist(),
+#     }
+#     return jsonify(data)
  
 
  @app.route("/bean")
