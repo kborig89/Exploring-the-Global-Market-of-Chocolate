@@ -34,12 +34,6 @@ cur.execute("SELECT * FROM cacao_clean_withbean")
 cacao_table = cur.fetchall()
 print(cacao_table)
 # Save references to each table
-# print(db)
-# print(db.engine)
-# print(app)
-# print(app.config)
-# print(Base)
-# print(Base.classes)
 # tableList = Base.classes.keys()
 # print(tableList)
 # cacao_table = Base.classes.cacao_clean_withbean
@@ -52,20 +46,10 @@ def index():
     """Return the homepage."""
     return render_template("index.html")
 
-
 @app.route("/manufacturing/<location>")
 def manufacturing(location):
     """Return the MetaData for a given sample."""
-    sel = [
-        cacao_table.company_location,
-        cacao_table.rating,
-        cacao_table.company,
-        cacao_table.review_date,
-        cacao_table.bean_origin_country
-    ]
-    results = db.session.query(
-        *sel).filter(cacao_table.company_location == location).all()
-
+    results = cur.execute('SELECT * FROM cacao_clean_withbean WHERE location=?', location)
     # Create a dictionary entry for each row of metadata information
     cacao_data = {}
     for result in results:
@@ -76,7 +60,6 @@ def manufacturing(location):
         cacao_data["bean_origin_country"] = result[4]
     print(cacao_data)
     return jsonify(cacao_data)
-    return render_template("manufacturing.html")
 
 # def manufacturing(location):
 #     """Return `otu_ids`, `otu_labels`,and `sample_values`."""
@@ -94,7 +77,6 @@ def manufacturing(location):
 #         "company": cacao_data.rating.values.tolist(),
 #     }
 #     return jsonify(data)
-
 
 @app.route("/bean")
 def sourcing():
@@ -115,7 +97,6 @@ def sourcing():
         cacao_data["rating"] = result[1]
     print(cacao_data)
     return jsonify(cacao_data)
-
 
 if __name__ == "__main__":
     app.run()
