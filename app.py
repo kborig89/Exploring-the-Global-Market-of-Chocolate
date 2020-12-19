@@ -34,7 +34,7 @@ def index():
     return render_template("index.html")
 
 
- @app.route("/manfacturing/<location>")
+ @app.route("/manufacturing/<location>")
 def market(location):
      """Return a list of sample names."""
      """Return the MetaData for a given sample."""

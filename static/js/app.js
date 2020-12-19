@@ -28,7 +28,7 @@ function buildMetadata(location) {
     //      cacao_table.bean_origin_country
   
     // @TODO: Use `d3.json` to Fetch the Sample Data for the Plots
-    d3.json(`/manfacturing/${location}`).then((data) => {
+    d3.json(`/manufacturing/${location}`).then((data) => {
       // @TODO: Build a Bubble Chart Using the Sample Data
       var company_location = data.otu_ids;
       var rating = data.otu_labels;
@@ -84,7 +84,7 @@ function buildMetadata(location) {
     var selector = d3.select("#selDataset");
   
     // Use the List of Sample Names to Populate the Select Options
-    d3.json("/manfacturing").then((companyLocation) => {
+    d3.json("/manufacturing").then((companyLocation) => {
       companyLocation.forEach((location) => {
         selector
           .append("option")
