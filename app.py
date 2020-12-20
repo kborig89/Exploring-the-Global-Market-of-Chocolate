@@ -65,10 +65,10 @@ def data():
 @app.route("/manufacturing/<location>")
 def manufacturing(location):
     """Return the MetaData for a given location."""
-    results = cur.execute(f"SELECT * FROM cacao_clean_withbean WHERE company_location='{location}'").fetchall()
+    # results = cur.execute(f"SELECT * FROM cacao_clean_withbean WHERE company_location='{location}'").fetchall()
     # Create a dictionary entry for each row of metadata information
-    cacao_location_data = jsonify(results)
-    return cacao_location_data
+    cacao_data = jsonify(cacao_table)
+    return cacao_data
 
 # def manufacturing(location):
 #     """Return `otu_ids`, `otu_labels`,and `sample_values`."""

@@ -21,57 +21,74 @@
 // }
 
 function buildCharts(location) {
-
-
   // @TODO: Use `d3.json` to Fetch the Sample Data for the Plots
   d3.json(`/manufacturing/${location}`).then((cacao_data) => {
-    // @TODO: Build a Bubble Chart Using the Sample Data
-    var company_location = cacao_data.company_location;
-    var rating = cacao_data.rating;
-    var company = cacao_data.company;
-    var review_date = cacao_data.review_date;
-    var bean_origin_country = caao_data.bean_origin_country;
+    //console.log(cacao_data);
+    company_location_data = cacao_data.filter(cacao_data => cacao_data[5] === location);
+    console.log(company_location_data);
+    
+    // var index = data.samples.findIndex(sample => sample.id === id);
+    // console.log(`The index in data.samples array is: ${index}.`);
+    // var sampleValues = data.samples[index].sample_values.slice(0, 10).reverse();
+    // var labels = data.samples[index].otu_labels.slice(0, 10);
+    // // get top 10 otu ids and reverse it
+    // var otu_top_10 = (data.samples[index].otu_ids.slice(0, 10)).reverse();
+    // // map otu id to OTU + id
+    // var otu_id = otu_top_10.map(d => "OTU " + d);
+    // // get the top 10 OTU labels
+    // var labels = data.samples[index].otu_labels.slice(0, 10);
 
-    // @TODO: Build a Pie Chart
-    let bubbleLayout = {
-      margin: { t: 0 },
-      hovermode: "closests",
-      xaxis: { title: "OTU ID" }
-    }
+    // // create bar chart data trace
+    // var trace = {
+    //   x: sampleValues,
+    //   y: otu_id,
+    //   text: labels,
+    //   marker: {
+    //     color: 'blue'
+    //   },
+    //   type: "bar",
+    //   orientation: "h",
+    // };
+    // var data_bar = [trace];
 
-    let bubbleData = [
-      {
-        x: company_location,
-        y: rating,
-        text: company,
-        mode: "markers",
-        marker: {
-          size: rating,
-          color: company_location,
-          colorscale: "Earth"
-        }
-      }
-    ]
+    // // set the plotly layouts
+    // var layout_bar = {
+    //   title: "Top 10 OTU",
+    //   yaxis: {
+    //     tickmode: "linear",
+    //   },
+    //   margin: {
+    //     l: 100,
+    //     r: 100,
+    //     t: 100,
+    //     b: 30
+    //   }
+    // };
+    // // create the bar chart
+    // Plotly.newPlot("bar", data_bar, layout_bar);
 
-    Plotly.plot("bubble", bubbleData, bubbleLayout);
+    // // Creat data trace for bubble chart
+    // var trace1 = {
+    //   x: data.samples[index].otu_ids,
+    //   y: data.samples[index].sample_values,
+    //   mode: "markers",
+    //   marker: {
+    //     size: data.samples[index].sample_values,
+    //     color: data.samples[index].otu_ids
+    //   },
+    //   text: data.samples[index].otu_labels
+    // };
+    // var data_bubble = [trace1];
 
-    // HINT: Use slice() to Grab the Top 10 sample_values,
-    // otu_ids, and otu_labels (10 Each)
-    //     let pieData = [
-    //       {
-    //         values: sample_values.slice(0, 10),
-    //         labels: otu_ids.slice(0, 10),
-    //         hovertext: otu_labels.slice(0, 10),
-    //         hoverinfo: "hovertext",
-    //         type: "pie"
-    //       }
-    //     ];
+    // // set the plotly layout
+    // var layout_bubble = {
+    //   xaxis: { title: "OTU ID" },
+    //   height: 600,
+    //   width: 1000
+    // };
 
-    //     let pieLayout = {
-    //       margin: { t: 0, l: 0 }
-    //     };
-
-    //     Plotly.plot("pie", pieData, pieLayout)
+    // // create the bubble plot
+    // Plotly.newPlot("bubble", data_bubble, layout_bubble);
   })
 }
 
@@ -97,15 +114,15 @@ function init() {
     console.log(companyLocation);
     // Use the First Sample from the List to Build Initial Plots
 
-    // buildPlot(companyLocation[0]);
-    // buildMetadata(companyLocation[0]);
+    buildCharts(companyLocation[0]);
+    //buildMetadata(companyLocation[0]);
   })
 }
 
 function optionChanged(new_location) {
   // Fetch New Data Each Time a New Sample is Selected
-  buildPlot(new_location);
-  buildMetadata(new_location);
+  buildCharts(new_location);
+  // buildMetadata(new_location);
 }
 
 // Initialize the Dashboard
