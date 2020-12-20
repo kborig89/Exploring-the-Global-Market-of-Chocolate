@@ -57,6 +57,10 @@ def marketplace():
 def rawData():
     return render_template("data.html")
 
+@app.route("/map")
+def map():
+    return render_template("map.html")
+
 @app.route("/data")
 def data():
     cacao_data = jsonify(cacao_table)
