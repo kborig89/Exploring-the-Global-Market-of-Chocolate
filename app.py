@@ -61,6 +61,10 @@ def rawData():
 def map():
     return render_template("map.html")
 
+@app.route("/bean")
+def bean():
+    return render_template("bean.html")
+
 @app.route("/data")
 def data():
     cacao_data = jsonify(cacao_table)
