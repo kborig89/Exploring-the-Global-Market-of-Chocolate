@@ -80,15 +80,25 @@ function init() {
   var dropdown = d3.select("#selDataset");
 
   // Use the List of Sample Names to Populate the Select Options
-  d3.json("/manufacturing").then((companyLocation) => {
+  d3.json("/data").then((data) => {
+    console.log(data);
+    var companyLocation = [];
+
+    data.forEach((point) => {
+      if (companyLocation.indexOf(point[5]) > -1) {
+        // do nothing
+      } else {
+        companyLocation.push(point[5]);
+      };
+    });
     companyLocation.forEach((location) => {
       dropdown.append("option").text(location).property("value", location);
-    })
-
+    });
+    console.log(companyLocation);
     // Use the First Sample from the List to Build Initial Plots
 
-    buildPlot(companyLocation[0]);
-    buildMetadata(companyLocation[0]);
+    // buildPlot(companyLocation[0]);
+    // buildMetadata(companyLocation[0]);
   })
 }
 

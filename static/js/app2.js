@@ -1,4 +1,4 @@
-d3.csv("../data/cacao_clean_withbean.csv").then(function(tableData){
+d3.csv("../static/data/cacao_clean_withbean.csv").then(function(tableData){
     console.log(tableData);
 
     var tbody =d3.select("tbody");

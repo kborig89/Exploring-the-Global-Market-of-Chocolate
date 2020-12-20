@@ -49,9 +49,22 @@ def index():
 def manufacturingMain():
     return render_template("manufacturing.html")
 
+@app.route("/marketplace")
+def marketplace():
+    return render_template("marketplace.html")
+
+@app.route("/rawData")
+def rawData():
+    return render_template("data.html")
+
+@app.route("/data")
+def data():
+    cacao_data = jsonify(cacao_table)
+    return cacao_data
+
 @app.route("/manufacturing/<location>")
 def manufacturing(location):
-    """Return the MetaData for a given sample."""
+    """Return the MetaData for a given location."""
     results = cur.execute(f"SELECT * FROM cacao_clean_withbean WHERE company_location='{location}'").fetchall()
     # Create a dictionary entry for each row of metadata information
     cacao_location_data = jsonify(results)
@@ -74,25 +87,25 @@ def manufacturing(location):
 #     }
 #     return jsonify(data)
 
-@app.route("/bean")
-def sourcing():
-    """Return the MetaData for a given sample."""
-    sel = [
-        cacao_table.specific_bean_origin,
-        cacao_table.bean_origin_country,
-        cacao_table.rating,
-        cacao_table.bean_type,
-    ]
-    results = db.session.query(
-        *sel).filter(cacao_table.company_location == location).all()
+# @app.route("/bean")
+# def sourcing():
+#     """Return the MetaData for a given sample."""
+#     sel = [
+#         cacao_table.specific_bean_origin,
+#         cacao_table.bean_origin_country,
+#         cacao_table.rating,
+#         cacao_table.bean_type,
+#     ]
+#     results = db.session.query(
+#         *sel).filter(cacao_table.company_location == location).all()
 
-    # Create a dictionary entry for each row of metadata information
-    cacao_data = {}
-    for result in results:
-        cacao_data["company_location"] = result[0]
-        cacao_data["rating"] = result[1]
-    print(cacao_data)
-    return jsonify(cacao_data)
+#     # Create a dictionary entry for each row of metadata information
+#     cacao_data = {}
+#     for result in results:
+#         cacao_data["company_location"] = result[0]
+#         cacao_data["rating"] = result[1]
+#     print(cacao_data)
+#     return jsonify(cacao_data)
 
 if __name__ == "__main__":
     app.run()
