@@ -32,7 +32,7 @@ conn = sqlite3.connect("data/cacao_bean.sqlite")
 cur = conn.cursor()
 cur.execute("SELECT * FROM cacao_clean_withbean")
 cacao_table = cur.fetchall()
-print(cacao_table)
+# print(cacao_table)
 # Save references to each table
 # tableList = Base.classes.keys()
 # print(tableList)
@@ -40,26 +40,22 @@ print(cacao_table)
 
 # print(cacao_table)
 
-
 @app.route("/")
 def index():
     """Return the homepage."""
     return render_template("index.html")
 
+@app.route("/manufacturing")
+def manufacturingMain():
+    return render_template("manufacturing.html")
+
 @app.route("/manufacturing/<location>")
 def manufacturing(location):
     """Return the MetaData for a given sample."""
-    results = cur.execute('SELECT * FROM cacao_clean_withbean WHERE location=?', location)
+    results = cur.execute(f"SELECT * FROM cacao_clean_withbean WHERE company_location='{location}'").fetchall()
     # Create a dictionary entry for each row of metadata information
-    cacao_data = {}
-    for result in results:
-        cacao_data["company_location"] = result[0]
-        cacao_data["rating"] = result[1]
-        cacao_data["company"] = result[2]
-        cacao_data["review_date"] = result[3]
-        cacao_data["bean_origin_country"] = result[4]
-    print(cacao_data)
-    return jsonify(cacao_data)
+    cacao_location_data = jsonify(results)
+    return cacao_location_data
 
 # def manufacturing(location):
 #     """Return `otu_ids`, `otu_labels`,and `sample_values`."""

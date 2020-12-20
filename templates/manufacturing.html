@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Chocolate Bar Ratings</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chocolate Bar Ratings</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
 
 <body>
   <nav class="navbar navbar-expand-lg">
@@ -16,21 +16,20 @@
         <a class="navbar-brand" href="/">Home</a>
       </div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="static/html/marketplace.html">Marketplace</a></li>
-          <li><a href="static/html/data.html">Bean</a></li>
-          <li><a href="/manufacturing">Manufacturing</a></li>
-          <li><a href="static/html/data.html">Data</a></li>
+          <li><a href="marketplace.html">Marketplace</a></li>
+          <li><a href="data.html">Bean</a></li>
+          <li><a href="manufacturing.html">Manfacturing</a></li>
+          <li><a href="data.html">Data</a></li>
         </ul>
     </div>
 </nav>
 <br>
 <br>
 <br>
-  <div class="container">
+<div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <img src="https://cdn.shopify.com/s/files/1/0001/0103/t/5/assets/logo.png?v=18177701282721251772" alt="Chocolate Alchemy" width="1000" height="300">
-        <h1>Chocolate Bar Ratings Dashboard</h1>
+        <h1>Manufacturing</h1>
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
@@ -42,7 +41,7 @@
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">Cocoa Bean Info</h3>
+            <h3 class="panel-title">Demographic Info</h3>
           </div>
           <div id="sample-metadata" class="panel-body"></div>
         </div>
@@ -61,10 +60,15 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.1/d3.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- <script src="../static/js/app.js"></script> -->
+  <script src="../static/js/app.js"></script>
+  
   
 </body>
 
+</html>
+</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>
