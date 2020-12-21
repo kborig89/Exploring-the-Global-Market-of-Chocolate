@@ -49,7 +49,7 @@ d3.csv("../static/data/cacao_clean_withbean.csv").then(function(tableData){
         tbody.html("")
     
         var filteredData = tableData.filter(data => data.review_date === inputValue || 
-            data.company===inputCompanyValue || data.country===inputCountryValue
+            data.company===inputCompanyValue || data.company_location===inputCountryValue
             || data.rating===inputRatingValue);
 
         //console.log(filteredData);
