@@ -2,6 +2,7 @@
 Exploring the Global Market of Chocolate 
 
 Team 5 Members
+
 Vasudha Nair
 
 Kathryn Buckwalter
