@@ -1,13 +1,6 @@
-# Project2-Team5
-Exploring the Global Market of Chocolate 
 
-Team 5 Members
+# Exploring the Global Market of Chocolate 
 
-Vasudha Nair
-
-Kathryn Buckwalter
-
-Mark Gu
 
 We have created a website for entrepreneurs and potential investors interested
 in the Chocolate industry. In our website, we have provided basic competitive information about key aspects of the industry-
@@ -44,4 +37,6 @@ e) The Map button links to the page showing a leaflet visualization of the avera
 
 The Dashboard for the Global Market of Chocolate displays all 
 of the above when the Flask API is run.The Flask API renders the index.html file to render the homepage and for the Marketplace, Bean , Manufacturing , Data and Map, the respective routes are designated in the Flask API application.
+
+To run the web page in a development server run python app.py in terminal.  Use the navigation at the top right of web page to view the different visualizations.
 
